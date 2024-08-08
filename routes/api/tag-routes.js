@@ -38,14 +38,45 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   // create a new tag
+  /* req.body should look like this...
+    {
+      "tag_name": "Jazz"
+    }
+  */
+  Tag.create(req.body)
+    .then((tag) => res.status(200).json(tag))
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json(err);
+    });
 });
 
 router.put("/:id", (req, res) => {
   // update a tag's name by its `id` value
+  Tag.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((tag) => res.json(tag))
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json(err);
+    });
 });
 
 router.delete("/:id", (req, res) => {
   // delete on tag by its `id` value
+  Tag.destroy({
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((tag) => res.json(tag))
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json(err);
+    });
 });
 
 module.exports = router;
